@@ -11,7 +11,12 @@ class MyApp extends StatelessWidget{
     return Container(
         height: 56.0,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        decoration: BoxDecoration(color: Colors.grey[900])
+        decoration: BoxDecoration(color: const Colors.grey[900]),
+        border: Border.all(
+          color: Colors.blue[100],
+          width: 8,
+        ),
+        borderRadius: BorderRadius.circular(12),
     );
   }
 }
