@@ -1,45 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:csv/csv.dart' as csv;
+//import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
+
+/*class TableLayout extends StatefulWidget{
+  @override
+  _TableLayoutState createState() => _TableLayoutState();
+}
+
+class _TableLayoutState extends State<TableLayout>{
+  List<List<dynamic>> data = [];
+
+  loadAsset() async {
+    final myData = await rootBundle.loadString('lib/assets/NASA API Web Scraping.csv');
+   // List<List<dynamic>> csvTable = csv.CsvToListConverter().convert(myData);
+  }
+
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Table(
+          columnWidths: {
+            0: FixedColumnWidth(100.0),
+            1: FixedColumnWidth (200.0),
+          },
+          children: data.map((item) {
+            return TableRow(
+                children: item.map((row) {
+                  return Container(
+                    color:
+                    row.toString().contains("NA") ? Colors.red : Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        row.toString(),
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  );
+                }).toList());
+          }).toList(),
+        )
+      )
+    );
+  }
+}*/
+
+
 
 //this sets the background colour to be dark grey
 Color darkGreyColor = new Color(0XFF212128);
 
-/*class MyAppBar extends StatelessWidget {
-  MyAppBar({this.title});
-
-  // Fields in a Widget subclass are always marked "final".
-
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56.0, // in logical pixels
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(color: Colors.deepOrangeAccent),
-      // Row is a horizontal, linear layout.
-      child: Row(
-        // <Widget> is the type of items in the list.
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navigation menu',
-            onPressed: null, // null disables the button
-          ),
-          // Expanded expands its child to fill the available space.
-          Expanded(
-            child: title,
-          ),
-          IconButton(
-            icon: Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: null,
-          ),
-        ],
-      ),
-    );
-  }
-}*/
 
 //stateless widgets don't allow for user interaction
 class MyScaffold extends StatefulWidget {
@@ -48,7 +61,7 @@ class MyScaffold extends StatefulWidget {
 }
 
 class Palette {
-  static const Color primary = Color(0XFF1E88E5);
+  static const Color primary = Color(0xFF473F97);
 }
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -58,7 +71,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: true,
       title: Text(
         'Asteroid Tracker',
-        style: TextStyle(fontSize: 40.0),
+        style: TextStyle(fontSize: 40.0, color: Color(0xFFFFFFFF)),
       ),
       backgroundColor: Palette.primary,
       elevation: 0.0,
@@ -72,7 +85,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 //this class builds a custom widget that prints the sliver list to the app body
 class CustomWidget extends StatelessWidget {
   CustomWidget(this._index) {
-    debugPrint('initialize: $_index');
+    //debugPrint('initialize: $_index');
   }
 
   final int _index;
@@ -85,7 +98,7 @@ class CustomWidget extends StatelessWidget {
         height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: (_index % 2 != 0) ? Colors.white : Colors.deepOrangeAccent,
+          color: (_index % 2 != 0) ? Colors.amber[50] : Colors.amber,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -150,9 +163,18 @@ class MyScaffoldState extends State<MyScaffold>{
     });
   }
 
+  List<List<dynamic>> data = [];
+
+  loadAsset() async {
+    final myData = await rootBundle.loadString('lib/assets/NASA API Web Scraping.csv');
+    List<List<dynamic>> csvTable = csv.CsvToListConverter().convert(myData);
+  }
+
+
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: darkGreyColor, //sets the background to dark grey
       appBar: CustomAppBar(),
       body: CustomScrollView(
         physics:  ClampingScrollPhysics(),
@@ -184,7 +206,9 @@ class MyScaffoldState extends State<MyScaffold>{
           )
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.grey[850],
+        selectedItemColor: Colors.yellow,
+        unselectedItemColor: Colors.white,
         onTap: itemSelected,
       ),
     );
